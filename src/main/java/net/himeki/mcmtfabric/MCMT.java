@@ -1,13 +1,16 @@
 package net.himeki.mcmtfabric;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import net.himeki.mcmtfabric.command.ConfigCommand;
 
 public class MCMT implements ModInitializer {
 	@Override
 	public void onInitialize() {
-		// This code runs as soon as Minecraft is in a mod-load-ready state.
-		// However, some things (like resources) may still be uninitialized.
-		// Proceed with mild caution.
-
+        CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> {
+            if (!dedicated) {
+                ConfigCommand.register(dispatcher);
+            }
+        });
 	}
 }
