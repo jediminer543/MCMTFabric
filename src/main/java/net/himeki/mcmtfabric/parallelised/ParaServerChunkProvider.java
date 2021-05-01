@@ -157,7 +157,15 @@ public class ParaServerChunkProvider extends ServerChunkManager {
     }
 
     public void chunkCacheCleanup() {
-        while (world == null || world.getServer() == null) {
+    	boolean wait = true;
+        while (wait) {
+        	try {
+        		wait = (world == null || world.getServer() == null);
+        	} catch (Exception e) {
+        		e.printStackTrace();
+        		// Someone messed up something
+        		// Seen as part of DoubleSlabs
+        	}
             log.debug(chunkCleaner, "ChunkCleaner Waiting for startup");
             try {
                 Thread.sleep(1000);
